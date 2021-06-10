@@ -1,0 +1,35 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "prod": "npm run production",
+        "production": "mix --production"
+    },
+    "devDependencies": {
+        "axios": "^0.21.1",
+        "laravel-mix": "^6.0.6",
+        "lodash": "^4.17.19",
+        "node-sass": "^6.0.0",
+        "postcss": "^8.1.14",
+        "sass-loader": "^11.1.1",
+        "vue-axios": "^3.2.4",
+        "vue-loader": "^15.9.7",
+        "vue-router": "^3.5.1",
+        "vue-template-compiler": "^2.6.12",
+        "vuex": "^3.6.2"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^1.2.35",
+        "@fortawesome/free-solid-svg-icons": "^5.15.3",
+        "@fortawesome/vue-fontawesome": "^2.0.2",
+        "@smartweb/vue-flash-message": "^0.6.10",
+        "bootstrap-vue": "^2.21.2",
+        "vue": "^2.6.12",
+        "vue-confirm-dialog": "^1.0.2",
+        "vue-context": "^6.0.0"
+    }
+}
