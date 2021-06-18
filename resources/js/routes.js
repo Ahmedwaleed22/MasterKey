@@ -4,7 +4,11 @@ import Register from './views/Register.vue'
 import ShowPassword from './views/ShowPassword.vue'
 import Logout from './components/Logout.vue'
 import CreateProfile from './views/CreateProfile.vue'
-
+import Pricing from './views/Pricing.vue'
+import Suggestions from './views/Suggestions.vue'
+import ForgetPassword from './views/ForgetPassword.vue'
+import ResetPassword from './views/ResetPassword.vue'
+import Contact from './views/Contact.vue'
 
 export const routes = [
     {
@@ -31,6 +35,16 @@ export const routes = [
         component: Register,
     },
     {
+        name: 'Forget Password',
+        path: '/forgetpassword',
+        component: ForgetPassword
+    },
+    {
+        name: 'Reset Password',
+        path: '/resetpassword/:token',
+        component: ResetPassword
+    },
+    {
         name: 'Show Password',
 		path: '/showpassword/:id',
         component: ShowPassword,
@@ -42,6 +56,27 @@ export const routes = [
         name: 'Create Profile',
         path: '/createprofile',
         component: CreateProfile,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        name: 'Pricing',
+        path: '/pricing',
+        component: Pricing
+    },
+    {
+        name: 'Suggestions',
+        path: '/suggestions',
+        component: Suggestions,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        name: 'Contact',
+        path: '/contact',
+        component: Contact,
         meta: {
             requiresAuth: true
         }

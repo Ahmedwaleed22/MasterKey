@@ -10,7 +10,7 @@
                 <b-navbar-nav class="ml-auto">
                     <b-navbar-nav>
                         <b-nav-item to="/createprofile">Create Password Profile</b-nav-item>
-                        <b-nav-item to="/suggest">Suggestions</b-nav-item>
+                        <b-nav-item to="/suggestions">Suggestions</b-nav-item>
                         <b-nav-item to="/pricing">Pricing</b-nav-item>
                         <b-nav-item to="/contact">Contact Us</b-nav-item>
                     </b-navbar-nav>
@@ -20,7 +20,6 @@
                         <template #button-content>
                             <span v-if="loaded">{{ userdata.username }}</span>
                         </template>
-                        <b-dropdown-item to="/user">Profile</b-dropdown-item>
                         <b-dropdown-item to="/logout">Sign Out</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <b-nav-item v-if="!dark_mode" @click="changeTheme()" href="#"><font-awesome-icon icon="moon" /></b-nav-item>

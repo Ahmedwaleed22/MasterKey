@@ -43,7 +43,7 @@
                 </b-row>
             </b-container>
         </div>
-        <SameCategory title="Some Of Your <span style='color: red'>MasterKeys</span>" />
+        <SameCategory v-if="loadedProfiles" :profiles="profiles" title="Some Of Your <span style='color: red'>MasterKeys</span>" />
         <FlashMessage :position="'right bottom'"></FlashMessage>
     </div>
 </template>
@@ -53,7 +53,7 @@ import SameCategory from '../components/SameCategory';
 import Navbar from '../components/Navbar';
 
 export default {
-    name: 'ShowPassword',
+    name: 'CreateProfile',
     components: {
         SameCategory,
         Navbar
@@ -66,6 +66,8 @@ export default {
             },
             apps: null,
             strength: 'natural',
+            profiles: null,
+            loadedProfiles: false
         }
     },
     mounted() {
@@ -76,6 +78,8 @@ export default {
         .catch(function (error) {
             console.log(error);
         });
+
+        this.loadProfiles();
     },
     methods: {
         generate(length) {
@@ -127,6 +131,22 @@ export default {
                     });
                 }
             });
+        },
+        loadProfiles() {
+            let token = JSON.parse(window.localStorage.getItem('authUser')).access_token;
+
+			axios.get(`/api/passwords?page=1`, {
+				headers: {
+					"Authorization": `Bearer ${token}`
+				}
+			})
+			.then(res => {
+				this.profiles = res.data.data;
+                this.loadedProfiles = true;
+			})
+			.catch(error => {
+				console.log(error);
+			})
         }
     },
     watch: {

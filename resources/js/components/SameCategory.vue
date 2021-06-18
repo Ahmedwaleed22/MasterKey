@@ -3,13 +3,13 @@
         <h1 class="title" v-html="title"></h1>
 		<b-container>
 			<div id="password-profiles">
-				<div class="profile" v-for="n in 9" :key="n">
+				<div class="profile" v-for="(profile, n) in profiles" :key="n">
 					<img src="/img/apps/facebook.png" />
 					<h3>Facebook</h3>
 					<p class="description">Social Media Platform</p>
-					<router-link :to="`/showpassword/${n}`" class="show-password">
+					<a :href="`/showpassword/${profile.id}`" class="show-password">
 						<font-awesome-icon icon="key" />
-					</router-link>
+					</a>
 				</div>
 			</div>
 		</b-container>
@@ -23,7 +23,8 @@ export default {
         title: {
             default: 'From Same <span style="color: red">Category</span>',
             type: String
-        }
+        },
+        profiles: Array
     }
 }
 </script>

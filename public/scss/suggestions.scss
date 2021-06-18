@@ -1,0 +1,57 @@
+$primary-color: red;
+$secondary-color: #dc3545;
+
+#suggestions-page {
+    max-height: 300vh;
+    height: auto;
+
+    .main {
+        max-width: 945px;
+        width: auto;
+        right: 0;
+        left: 0;
+        margin: auto;
+        margin-top: 30px;
+
+        .title {
+            font-size: 40px;
+        }
+        .description {
+            font-size: 20px;
+        }
+        .suggestion-form {
+            max-width: 100%;
+            width: auto;
+            background: #f5f5f5;
+            padding: 10px;
+
+            form {
+                display: flex;
+                input {
+                    width: 75%;
+                    margin-right: 15px;
+
+                    @media screen and (max-width: 359px) {
+                        width: 100%;
+                        margin-right: 0;
+                        margin-bottom: 10px;
+                    }
+                }
+                button {
+                    width: 25%;
+
+                    @media screen and (max-width: 359px) {
+                        width: 100%;
+                    }
+                }
+
+                @media screen and (max-width: 359px) {
+                    display: block
+                }
+            }
+        }
+    }
+    #suggestions {
+        margin-top: 50px;
+    }
+}

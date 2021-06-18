@@ -1,0 +1,27 @@
+#contactus {
+    .contact-form {
+        background: #fff;
+        max-width: 500px;
+        padding: 30px;
+        right: 0;
+        left: 0;
+        margin: auto;
+        margin-top: 100px;
+        border: 1px solid #d4d4d4;
+        box-shadow: 2px 2px #e6e6e6;
+
+        .title, .description {
+            color: #333
+        }
+        form input, textarea {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        textarea {
+            height: 150px;
+        }
+        button {
+            width: 150px;
+        }
+    }
+}

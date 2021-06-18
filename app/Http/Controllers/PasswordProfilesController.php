@@ -28,6 +28,7 @@ class PasswordProfilesController extends Controller
             $category_id = $app->category;
             $sameCategory = Profile::with('app', 'app.category')
                             ->where('user', $user->id)
+                            ->where('id', '!=', $id)
                             ->whereHas('app.category', function ($q) use ($category_id) {
                                 $q->where('categories.id', $category_id);
                             })

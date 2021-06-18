@@ -7,8 +7,17 @@
                 </div>
             </div>
             <h3 class="title">Register</h3>
-            <b-alert variant="danger" show v-if="messages.error">{{ messages.error }}</b-alert>
-            <b-alert variant="success" show v-if="messages.success">{{ messages.success }}</b-alert>
+            <div class="errors" v-if="messages.errors">
+                <b-alert
+                    variant="danger"
+                    show
+                    v-for="(error, n) in messages.errors"
+                    :key="n"
+                >
+                    {{ error[0] }}
+                </b-alert>
+            </div>
+            <b-alert variant="success" show v-if="messages.success">{{ messages.success }} <router-link to="/login">Login</router-link></b-alert>
             <form v-on:submit.prevent="submitForm">
                 <b-input type="text" v-model="form.username" placeholder="Username" />
                 <b-input type="email" v-model="form.email" placeholder="Email" />
@@ -26,7 +35,7 @@
 import axios from 'axios';
 
 export default {
-    name: 'Login',
+    name: 'Register',
     data() {
         return {
             form: {
@@ -35,7 +44,7 @@ export default {
                 password: '',
             },
             messages: {
-                error: '',
+                errors: null,
                 success: ''
             }
         }
@@ -60,11 +69,22 @@ export default {
         submitForm() {
             axios.post('/api/auth/register', this.form)
             .then(res => {
-                this.messages.error = '';
-                this.messages.success = 'User Registered Successfully';
+                this.login();
             }).catch(error => {
-                this.messages.success = '';
-                this.messages.error = 'Username Or Email Is Already Taken';
+                this.messages.errors = error.response.data;
+                this.form.password = null;
+            });
+        },
+        login() {
+            axios.post('/api/auth/login', this.form)
+            .then(res => {
+                window.localStorage.removeItem('authUser');
+                window.localStorage.setItem('authUser', JSON.stringify(res.data));
+                window.location.replace('/');
+            })
+            .catch(error => {
+                this.form.password = null;
+                this.messages.errors = error.response.data;
             });
         }
     }

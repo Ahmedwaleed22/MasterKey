@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
@@ -30,7 +30,7 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'Wrong Credentials'], 401);
         }
 
         $user = JWTAuth::setToken($token)->toUser();
@@ -40,11 +40,15 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $request->validate([
+        $validation = Validator($request->all(), [
             'username' => ['required', 'unique:users', 'max:255'],
             'email' => ['required', 'unique:users', 'max:255'],
             'password' => ['required', 'max:255'],
         ]);
+
+        if ($validation->fails()) {
+            return response()->json($validation->errors(), 422);
+        }
 
         $user = User::create([
             'username' => $request->username,

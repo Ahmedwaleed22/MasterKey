@@ -34,6 +34,7 @@
 			last-number
 			align="fill"
 			limit="11"
+			v-if="profileData.last_page > 1"
 		></b-pagination>
 		<FlashMessage :position="'right bottom'"></FlashMessage>
 	</div>
@@ -52,7 +53,7 @@ export default {
 	data() {
 		return {
 			pagination: {
-				rows: 100,
+				rows: null,
 				perPage: 9,
 				currentPage: 1
 			},
@@ -137,6 +138,7 @@ export default {
 				this.pagination.rows = res.data.total;
 				this.profileData.last_page = res.data.last_page;
 				this.profileData.profiles = res.data.data;
+				this.profileData.total = res.data.total - 1;
 			})
 			.catch(error => {
 				console.log(error);

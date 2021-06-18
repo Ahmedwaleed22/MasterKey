@@ -22,6 +22,7 @@ import { routes } from './routes';
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import "../css/app.css";
+import VueRecaptcha from 'vue-recaptcha';
  
 Vue.use(VueRouter)
 Vue.use(Vuex)
@@ -37,6 +38,7 @@ library.add(
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('vue-confirm-dialog', VueConfirmDialog.default)
+Vue.component('vue-recaptcha', VueRecaptcha)
 Vue.config.productionTip = false;
 
 //Register Routes
@@ -50,7 +52,7 @@ router.beforeEach((to, from, next) => {
     if (to.meta.requiresAuth) {
         const authUser = JSON.parse(window.localStorage.getItem('authUser'));
 
-        if (authUser.access_token) {
+        if (authUser && authUser.access_token) {
             axios.get('/api/auth/isvalid', {
                 headers: {
                     'Authorization': `Bearer ${authUser.access_token}`

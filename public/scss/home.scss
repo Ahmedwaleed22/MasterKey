@@ -24,6 +24,13 @@ html, body, #app {
     #createprofilecontent, #showpassword .password-field {
         background: #1d1d1d !important;
     }
+    #suggestions-page .suggestion-form {
+        background: #1d1d1d !important;
+    }
+    #suggestion-body {
+        background: #1d1d1d !important;
+        color: #fff;
+    }
 }
 #app {
     background: $white;

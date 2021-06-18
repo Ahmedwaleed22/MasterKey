@@ -62,7 +62,8 @@ export default {
                 window.location.replace('/');
             })
             .catch(error => {
-                this.messages.error = 'Wrong Credentials';
+                this.form.password = null;
+                this.messages.error = error.response.data.message;
             });
         }
     }

@@ -4,7 +4,11 @@ use App\Http\Controllers\AppsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\PasswordProfilesController;
+use App\Http\Controllers\PricingController;
+use App\Http\Controllers\SuggestionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,3 +55,23 @@ Route::group([
     Route::post('/', [PasswordProfilesController::class, 'store']);
     Route::delete('/{id}', [PasswordProfilesController::class, 'delete']);
 });
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'suggestions'
+
+], function ($router) {
+    Route::get('/', [SuggestionsController::class, 'latest']);
+    Route::post('/', [SuggestionsController::class, 'store']);
+});
+
+Route::post('/forgetpassword', [ForgetPasswordController::class, 'forgetpassword']);
+
+Route::get('/checkresettoken/{resettoken}', [ForgetPasswordController::class, 'checktoken']);
+
+Route::post('/resetpassword', [ForgetPasswordController::class, 'resetpassword']);
+
+Route::get('/plans', [PricingController::class, 'all']);
+Route::post('/plans', [PricingController::class, 'store']);
+
+Route::post('/contact', [ContactController::class, 'store'])->middleware('auth:api');
