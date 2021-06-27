@@ -1,5 +1,5 @@
 <template>
-	<div class="homepage">
+	<div class="homepage" v-if="user.username != null">
 		<vue-confirm-dialog></vue-confirm-dialog>
 		<Navbar />
 		<h1 id="main-page-title">your <span class="primary-color">profile</span></h1>
@@ -61,10 +61,14 @@ export default {
 				profiles: null,
 				last_page: null,
 				total: null
+			},
+			user: {
+				username: null
 			}
 		}
 	},
 	mounted() {
+		this.getUsername();
 		this.showSuccess();
 		this.loadData(this.currentPage);
 	},
@@ -143,6 +147,21 @@ export default {
 			.catch(error => {
 				console.log(error);
 			})
+		},
+		getUsername() {
+			let token = JSON.parse(window.localStorage.getItem('authUser')).access_token;
+
+			axios.get('/api/auth/user-profile', {
+				headers: {
+					"Authorization": `Bearer ${token}`
+				}
+			})
+			.then(res => {
+				this.user.username = res.data.username
+			})
+			.catch(err => {
+				this.$router.push('/login');
+			});
 		}
 	},
 	watch: {

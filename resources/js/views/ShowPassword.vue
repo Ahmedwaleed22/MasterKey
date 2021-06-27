@@ -1,5 +1,5 @@
 <template>
-    <div class="show-password">
+    <div class="show-password" v-if="user.username != null">
         <Navbar />
         <h1 id="main-page-title">{{ app.name }}'s <span class="primary-text">MasterKey</span></h1>
         <p id="main-page-description">{{ app.description }}</p>
@@ -47,10 +47,14 @@ export default {
                 text: null,
                 is_shown: false,
             },
+            user: {
+				username: null
+			},
             same_category: null
         }
     },
     mounted() {
+        this.getUsername();
         const id = this.$route.params.id;
         this.loadData(id);
     },
@@ -90,7 +94,22 @@ export default {
                 console.log(error);
                 this.$router.push('/');
             });
-        }
+        },
+        getUsername() {
+			let token = JSON.parse(window.localStorage.getItem('authUser')).access_token;
+
+			axios.get('/api/auth/user-profile', {
+				headers: {
+					"Authorization": `Bearer ${token}`
+				}
+			})
+			.then(res => {
+				this.user.username = res.data.username
+			})
+			.catch(err => {
+				this.$router.push('/login');
+			});
+		}
     }
 }
 </script>

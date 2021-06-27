@@ -14,7 +14,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import {
     faKey,
     faMoon, 
-    faSun} from '@fortawesome/free-solid-svg-icons'
+    faSun } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 //Routes
 import { routes } from './routes';
@@ -49,27 +49,24 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.meta.requiresAuth) {
-        const authUser = JSON.parse(window.localStorage.getItem('authUser'));
+    const authUser = JSON.parse(window.localStorage.getItem('authUser'));
+    const is_staff = JSON.parse(window.localStorage.getItem('is_staff'));
 
+    if (to.meta.requiresAuth) {
         if (authUser && authUser.access_token) {
-            axios.get('/api/auth/isvalid', {
-                headers: {
-                    'Authorization': `Bearer ${authUser.access_token}`
-                }
-            })
-            .then(res => {
-                if(res.data.valid) {
-                    next();
-                } else {
-                    next({
-                        name: 'Login'
-                    });
-                }
-            })
+            next();
         } else {
             next({
                 name: 'Login'
+            });
+        }
+    }
+    if (to.meta.requiresStaff) {
+        if (authUser && authUser.access_token && is_staff) {
+            next();
+        } else {
+            next({
+                name: 'Profile'
             });
         }
     }

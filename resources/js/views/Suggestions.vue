@@ -1,5 +1,5 @@
 <template>
-    <div id="suggestions-page">
+    <div id="suggestions-page" v-if="user.username != null">
         <Navbar />
         <section class="main">
             <h1 class="title">We Love Hearing From You!</h1>
@@ -41,10 +41,14 @@ export default {
     data() {
         return {
             suggestion: null,
-            loaded_suggestions: null
+            loaded_suggestions: null,
+            user: {
+				username: null
+			}
         }
     },
     mounted() {
+        this.getUsername();
         this.PlaceholderAnimation();
         this.loadData();
     },
@@ -95,7 +99,22 @@ export default {
                     icon: '/img/icons/error.svg',
                 });
             });
-        }
+        },
+        getUsername() {
+			let token = JSON.parse(window.localStorage.getItem('authUser')).access_token;
+
+			axios.get('/api/auth/user-profile', {
+				headers: {
+					"Authorization": `Bearer ${token}`
+				}
+			})
+			.then(res => {
+				this.user.username = res.data.username
+			})
+			.catch(err => {
+				this.$router.push('/login');
+			});
+		}
     }
 }
 </script>

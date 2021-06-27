@@ -1,5 +1,5 @@
 <template>
-    <div id="contactus">
+    <div id="contactus" v-if="user.username != null">
         <Navbar />
         <div class="contact-form">
             <h2 class="title">Contact Us!</h2>
@@ -41,10 +41,14 @@ export default {
                 message: null,
                 submited: false
             },
+            user: {
+				username: null
+			},
             recaptcha: null
         }
     },
     mounted() {
+        this.getUsername();
         this.PlaceholderAnimation();
     },
     methods: {
@@ -103,7 +107,22 @@ export default {
         },
         resetCaptcha() {
             this.$refs.recaptcha.reset();
-        }
+        },
+        getUsername() {
+			let token = JSON.parse(window.localStorage.getItem('authUser')).access_token;
+
+			axios.get('/api/auth/user-profile', {
+				headers: {
+					"Authorization": `Bearer ${token}`
+				}
+			})
+			.then(res => {
+				this.user.username = res.data.username
+			})
+			.catch(err => {
+				this.$router.push('/login');
+			});
+		}
     }
 }
 </script>

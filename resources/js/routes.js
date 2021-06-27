@@ -2,13 +2,16 @@ import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import ShowPassword from './views/ShowPassword.vue'
-import Logout from './components/Logout.vue'
+import Logout from './components/Logout.js'
 import CreateProfile from './views/CreateProfile.vue'
 import Pricing from './views/Pricing.vue'
 import Suggestions from './views/Suggestions.vue'
 import ForgetPassword from './views/ForgetPassword.vue'
 import ResetPassword from './views/ResetPassword.vue'
 import Contact from './views/Contact.vue'
+import AdminBase from './Admin/components/Base.vue'
+import AdminDashboard from './Admin/views/Home.vue'
+import AdminUsersList from './Admin/views/UsersList.vue'
 
 export const routes = [
     {
@@ -80,5 +83,29 @@ export const routes = [
         meta: {
             requiresAuth: true
         }
+    },
+    {
+        path: '/admin',
+        component: AdminBase,
+        meta: {
+            requiresAuth: true,
+            requiresStaff: true
+        },
+        children: [
+            {
+                path: '/',
+                component: AdminDashboard,
+                meta: {
+                    title: 'Dashboard'
+                }
+            },
+            {
+                path: 'users',
+                component: AdminUsersList,
+                meta: {
+                    title: 'UsersList'
+                }
+            }
+        ]
     }
 ];

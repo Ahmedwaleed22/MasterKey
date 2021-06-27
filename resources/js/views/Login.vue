@@ -59,6 +59,10 @@ export default {
             .then(res => {
                 window.localStorage.removeItem('authUser');
                 window.localStorage.setItem('authUser', JSON.stringify(res.data));
+                if (JSON.parse(JSON.stringify(res.data)).user.is_admin == 1 ||
+                    JSON.parse(JSON.stringify(res.data)).user.is_staff == 1) {
+                    window.localStorage.setItem('is_staff', true);
+                }
                 window.location.replace('/');
             })
             .catch(error => {

@@ -70,8 +70,10 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 $main-color: #ff4b4b;
 
-
+.dropdown-toggle {
+    outline: none !important;
+}
 </style>

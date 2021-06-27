@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AppsController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
@@ -75,3 +75,11 @@ Route::get('/plans', [PricingController::class, 'all']);
 Route::post('/plans', [PricingController::class, 'store']);
 
 Route::post('/contact', [ContactController::class, 'store'])->middleware('auth:api');
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'admin'
+
+], function ($router) {
+    Route::get('/users', [AdminController::class, 'all_users']);
+});

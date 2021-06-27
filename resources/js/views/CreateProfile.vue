@@ -1,5 +1,5 @@
 <template>
-    <div class="show-password">
+    <div class="show-password" v-if="user.username != null">
         <Navbar />
         <h1 id="main-page-title">Create Your <span class="primary-text">MasterKey</span></h1>
 		<p id="main-page-description">you can create your password profiles from here. all of your passwords will be encrypted and secure.</p>
@@ -64,6 +64,9 @@ export default {
                 text: '',
                 app: '',
             },
+            user: {
+				username: null
+			},
             apps: null,
             strength: 'natural',
             profiles: null,
@@ -71,6 +74,7 @@ export default {
         }
     },
     mounted() {
+        this.getUsername();
         this.generate(32);
 
         axios.get('/api/apps/all')
@@ -147,7 +151,22 @@ export default {
 			.catch(error => {
 				console.log(error);
 			})
-        }
+        },
+        getUsername() {
+			let token = JSON.parse(window.localStorage.getItem('authUser')).access_token;
+
+			axios.get('/api/auth/user-profile', {
+				headers: {
+					"Authorization": `Bearer ${token}`
+				}
+			})
+			.then(res => {
+				this.user.username = res.data.username
+			})
+			.catch(err => {
+				this.$router.push('/login');
+			});
+		}
     },
     watch: {
         strength: function (val) {
