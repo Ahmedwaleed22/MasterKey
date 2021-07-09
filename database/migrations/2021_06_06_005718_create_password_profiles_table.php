@@ -17,7 +17,7 @@ class CreatePasswordProfilesTable extends Migration
             $table->id();
             $table->longText('password');
             $table->foreignId('user')->constrained('users')->onDelete('cascade');
-            $table->foreignId('app')->constrained('apps')->onDelete('cascade');
+            $table->foreignId('app_id')->constrained('apps')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -69,24 +69,14 @@ export default {
         submitForm() {
             axios.post('/api/auth/register', this.form)
             .then(res => {
-                this.login();
+                this.messages.errors = '';
+                this.messages.success = 'Check Your Inbox To Verify Your Account';
             }).catch(error => {
+                this.messages.success = '';
                 this.messages.errors = error.response.data;
                 this.form.password = null;
             });
         },
-        login() {
-            axios.post('/api/auth/login', this.form)
-            .then(res => {
-                window.localStorage.removeItem('authUser');
-                window.localStorage.setItem('authUser', JSON.stringify(res.data));
-                window.location.replace('/');
-            })
-            .catch(error => {
-                this.form.password = null;
-                this.messages.errors = error.response.data;
-            });
-        }
     }
 }
 </script>

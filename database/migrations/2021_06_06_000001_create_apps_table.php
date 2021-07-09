@@ -20,7 +20,7 @@ class CreateAppsTable extends Migration
             $table->string('link');
             $table->string('short_description');
             $table->string('description');
-            $table->foreignId('category')->constrained('categories')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->timestamps();
         });
     }

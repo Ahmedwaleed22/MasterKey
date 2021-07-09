@@ -10,6 +10,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory, Notifiable;
 
     /**
@@ -21,6 +22,9 @@ class User extends Authenticatable implements JWTSubject
         'username',
         'email',
         'password',
+        'is_staff',
+        'is_admin',
+        'confirmation_token'
     ];
 
     /**
@@ -31,6 +35,9 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password',
         'remember_token',
+        'confirmation_token',
+        'login_2fa',
+        'login_2fa_expiration_date'
     ];
 
     /**

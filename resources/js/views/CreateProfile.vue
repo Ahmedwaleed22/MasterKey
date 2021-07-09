@@ -121,6 +121,8 @@ export default {
                 this.$router.push('/');
             })
             .catch(error => {
+                console.log(error.response);
+
                 if (this.password.app == null || this.password.app == "") {
                     this.flashMessage.info({
                         title: 'You forgot something!',

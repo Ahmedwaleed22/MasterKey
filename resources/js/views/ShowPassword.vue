@@ -16,7 +16,7 @@
             <b-container>
                 <div id="password-profiles">
                     <div class="profile" v-for="(profile, n) in same_category" :key="n">
-                        <img :src="`/img/apps/${profile.app.logo}`" />
+                        <img :src="`${profile.app.logo}`" />
                         <h3>{{ profile.app.name }}</h3>
                         <p class="description">{{ profile.app.short_description }}</p>
                         <a :href="`/showpassword/${profile.id}`" class="show-password">

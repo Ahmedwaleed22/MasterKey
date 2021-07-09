@@ -19,13 +19,18 @@ class PasswordProfilesController extends Controller
         return Profile::with('app', 'app.category')->where('user', $user->id)->paginate(9);
     }
 
+    public function all_without_pagination() {
+        $user = auth()->user();
+        return Profile::with('app', 'app.category')->where('user', $user->id)->get();
+    }
+
     public function single($id) {
         $user = auth()->user();
         $profile = Profile::findOrFail($id);
 
         if ($user->id == $profile->user) {
-            $app = App::find($profile->app);
-            $category_id = $app->category;
+            $app = App::all()->find($profile->app);
+            $category_id = $app->category_id;
             $sameCategory = Profile::with('app', 'app.category')
                             ->where('user', $user->id)
                             ->where('id', '!=', $id)
@@ -59,7 +64,7 @@ class PasswordProfilesController extends Controller
         return Profile::create([
             'password' => Crypt::encryptString($request->password),
             'user' => auth()->user()->id,
-            'app' => $request->app
+            'app_id' => $request->app
         ]);
     }
 

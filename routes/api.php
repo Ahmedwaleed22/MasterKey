@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AppsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -9,6 +8,7 @@ use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\PasswordProfilesController;
 use App\Http\Controllers\PricingController;
 use App\Http\Controllers\SuggestionsController;
+use App\Http\Controllers\Admin\UsersAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +31,7 @@ Route::group([
 
 ], function ($router) {
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/confirm_login', [AuthController::class, 'verify_login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user-profile', [AuthController::class, 'me']);
@@ -51,6 +52,7 @@ Route::group([
 
 ], function ($router) {
     Route::get('/', [PasswordProfilesController::class, 'all']);
+    Route::get('/withoutpagination', [PasswordProfilesController::class, 'all_without_pagination']);
     Route::get('/{id}', [PasswordProfilesController::class, 'single']);
     Route::post('/', [PasswordProfilesController::class, 'store']);
     Route::delete('/{id}', [PasswordProfilesController::class, 'delete']);
@@ -75,11 +77,3 @@ Route::get('/plans', [PricingController::class, 'all']);
 Route::post('/plans', [PricingController::class, 'store']);
 
 Route::post('/contact', [ContactController::class, 'store'])->middleware('auth:api');
-
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'admin'
-
-], function ($router) {
-    Route::get('/users', [AdminController::class, 'all_users']);
-});

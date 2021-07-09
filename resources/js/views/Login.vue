@@ -7,7 +7,9 @@
                 </div>
             </div>
             <h3 class="title">Login</h3>
-            <b-alert variant="danger" show v-if="messages.error">{{ messages.error }}</b-alert>
+            <div class="errors" v-if="messages.errors">
+                <b-alert variant="danger" show v-for="(error, index) in messages.errors" :key="index">{{ error }}</b-alert>
+            </div>
             <form v-on:submit.prevent="submitForm">
                 <b-input type="email" v-model="form.email" placeholder="Email" />
                 <b-input type="password" v-model="form.password" placeholder="Password" />
@@ -31,7 +33,7 @@ export default {
                 password: '',
             },
             messages: {
-                error: ''
+                errors: ''
             }
         }
     },
@@ -57,17 +59,19 @@ export default {
         submitForm() {
             axios.post('/api/auth/login', this.form)
             .then(res => {
-                window.localStorage.removeItem('authUser');
-                window.localStorage.setItem('authUser', JSON.stringify(res.data));
-                if (JSON.parse(JSON.stringify(res.data)).user.is_admin == 1 ||
-                    JSON.parse(JSON.stringify(res.data)).user.is_staff == 1) {
-                    window.localStorage.setItem('is_staff', true);
-                }
-                window.location.replace('/');
+                // window.localStorage.removeItem('authUser');
+                // window.localStorage.setItem('authUser', JSON.stringify(res.data));
+                // if (JSON.parse(JSON.stringify(res.data)).user.is_admin == 1 ||
+                //     JSON.parse(JSON.stringify(res.data)).user.is_staff == 1) {
+                //     window.localStorage.setItem('is_staff', true);
+                // }
+                // window.location.replace('/');
+                window.localStorage.setItem('email', this.form.email);
+                window.location.replace('/nextsteplogin');
             })
             .catch(error => {
                 this.form.password = null;
-                this.messages.error = error.response.data.message;
+                this.messages.errors = error.response.data;
             });
         }
     }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\password_reset_mail;
+use App\Mail\success_password_reset_mail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -75,14 +77,7 @@ class ForgetPasswordController extends Controller
         $email = $user->email;
 
         try {
-            Mail::send(
-                'email.success_reset',
-                ['email' => $email],
-                function ($message) use ($email) {
-                    $message->to($email);
-                    $message->subject('Your MasterKey Password Reset Successfully');
-                }
-            );
+            Mail::to($email)->send(new success_password_reset_mail());
         } catch (\Exception $e) {
             return response()->json(["error" => $e], 500);
         }
@@ -93,14 +88,7 @@ class ForgetPasswordController extends Controller
     }
 
     private function sendResetEmail($email, $token) {
-        Mail::send(
-            'email.forget',
-            ['token' => $token],
-            function ($message) use ($email) {
-                $message->to($email);
-                $message->subject('Your MasterKey Password Reset Link');
-            }
-        );
+        Mail::to($email)->send(new password_reset_mail($token));
 
         if (Mail::failures()) {
             return new Error(Mail::failures());
