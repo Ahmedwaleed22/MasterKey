@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Master Key</title>
+	<link rel="shortcut icon" href="favicon.ico" />
 	<link rel=stylesheet href="{{ mix('css/app.css') }}" />
 	<script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer></script>
 </head>
