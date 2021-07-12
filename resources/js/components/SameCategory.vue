@@ -4,7 +4,7 @@
 		<b-container>
 			<div id="password-profiles">
 				<div class="profile" v-for="(profile, n) in profiles" :key="n">
-					<img src="/img/apps/facebook.png" />
+					<img :src="profile.app.logo" />
 					<h3>Facebook</h3>
 					<p class="description">Social Media Platform</p>
 					<a :href="`/showpassword/${profile.id}`" class="show-password">

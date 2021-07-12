@@ -33,13 +33,16 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $validated = Validator($request->all(), [
-            'email' => 'string|required',
+            'email' => 'email|required',
             'password' => 'string|required'
         ]);
 
         if ($validated->failed()) {
             return response()->json($validated->errors(), 500);
         }
+
+        User::where('created_at', '<=', Carbon::now()->subMinutes(15))
+                ->where('email_verified_at', null)->delete();
 
         $user_check = User::where('email', '=', $request->email)->first();
 
@@ -71,7 +74,7 @@ class AuthController extends Controller
 
     public function verify_login(Request $request) {
         $request->validate([
-            'email' => 'string|required',
+            'email' => 'email|required',
             'login_token' => 'string|required'
         ]);
 
@@ -92,9 +95,9 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validation = Validator($request->all(), [
-            'username' => ['required', 'unique:users', 'max:255'],
-            'email' => ['required', 'unique:users', 'max:255'],
-            'password' => ['required', 'max:255'],
+            'username' => 'string|required|unique:users|max:255',
+            'email' => 'email|indisposable|required|unique:users|max:255',
+            'password' => 'required|max:255',
         ]);
 
         if ($validation->fails()) {
